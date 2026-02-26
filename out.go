@@ -1,4 +1,4 @@
-package logger
+package eelog
 
 var sliceCap = 4
 

@@ -1,4 +1,4 @@
-package logger
+package eelog
 
 import "time"
 
