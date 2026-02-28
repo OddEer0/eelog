@@ -11,6 +11,10 @@ func Int(key string, value int) Field {
 }
 
 func Any(key string, value interface{}) Field {
+	val, ok := value.(LogValuer)
+	if ok {
+		return Field{Key: key, Type: AnyType, Value: val.LogValue()}
+	}
 	return Field{Key: key, Type: AnyType, Value: value}
 }
 

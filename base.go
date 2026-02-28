@@ -29,6 +29,10 @@ const (
 
 type Level int
 
+type LogValuer interface {
+	LogValue() any
+}
+
 const (
 	DebugLvl Level = -10
 	InfoLvl  Level = 0
