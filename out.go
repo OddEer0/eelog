@@ -1,6 +1,11 @@
 package eelog
 
+import "io"
+
 var sliceCap = 4
+
+var _ io.Writer = (*OutDump)(nil)
+var _ io.Writer = (*OutMultiDump)(nil)
 
 type OutDump struct {
 	Dump []byte

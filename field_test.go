@@ -236,3 +236,26 @@ func TestField(t *testing.T) {
 		})
 	}
 }
+
+type Value struct {
+	val   any
+	other int
+}
+
+func (v Value) LogValue() any {
+	return v.val
+}
+
+var _ LogValuer = Value{}
+
+func TestAnyFieldLogValuer(t *testing.T) {
+	var expected any = "hello world"
+
+	val := Value{
+		val: expected,
+	}
+
+	field := Any("test", val)
+
+	assert.Equal(t, expected, field.Value)
+}
