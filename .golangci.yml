@@ -5,9 +5,6 @@ run:
   tests: false
   timeout: 5m
 
-issues:
-  fix: true
-
 formatters:
   exclusions:
     paths:
