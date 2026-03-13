@@ -9,6 +9,10 @@ import (
 
 var _ eelog.Logger = (*LogTest)(nil)
 
+const (
+	DefaultCap = 8
+)
+
 type logKey struct{}
 type LogTest struct {
 	mu         *sync.Mutex
@@ -24,9 +28,9 @@ func NewLogTest(level eelog.Level) *LogTest {
 		mu:         &sync.Mutex{},
 		level:      level,
 		withFields: make([]eelog.Field, 0),
-		levels:     make([]eelog.Level, 0, 8),
-		messages:   make([]string, 0, 8),
-		fields:     make([][]eelog.Field, 0, 8),
+		levels:     make([]eelog.Level, 0, DefaultCap),
+		messages:   make([]string, 0, DefaultCap),
+		fields:     make([][]eelog.Field, 0, DefaultCap),
 	}
 }
 
@@ -78,13 +82,12 @@ func (l *LogTest) With(fields ...eelog.Field) eelog.Logger {
 	defer l.mu.Unlock()
 
 	withFields := make([]eelog.Field, 0, len(l.withFields)+len(fields))
-	withFields = append(fields, l.withFields...)
-	withFields = append(fields, fields...)
+	withFields = append(withFields, l.withFields...)
+	withFields = append(withFields, fields...)
 	return &LogTest{
 		mu:         &sync.Mutex{},
 		withFields: withFields,
 	}
-
 }
 
 func (l *LogTest) InjectCtx(ctx context.Context) context.Context {
